@@ -16,17 +16,19 @@
                 <p id="currentOperation"></p>
             </div>
             <div id="allOperations">
-                <button idoperation="+" onclick="handlerChangeOperations('+')">+</button>
-                <button idoperation="-" onclick="handlerChangeOperations('-')">-</button>
-                <button idoperation="*" onclick="handlerChangeOperations('*')">*</button>
-                <button idoperation="/" onclick="handlerChangeOperations('/')">/</button>
+                <button class="operation" idoperation="+">+</button>
+                <button class="operation" idoperation="-">-</button>
+                <button class="operation" idoperation="*">*</button>
+                <button class="operation" idoperation="/">/</button>
+                <button class="operation" idoperation="addArray">addArray</button>
+                <button class="operation" idoperation="negative">negative</button>
             </div>
         </div>
         <div id="operationForm">
             <div id="op1">
 
-                <input id="num1" />
-                <input id="num2" /> <br>
+                <input id="num1" class="operand" />
+                <input id="num2" class="operand" /> <br>
                 <button id="operationButton"> Посчитать </button>
                 <p id="result"></p>
             </div>

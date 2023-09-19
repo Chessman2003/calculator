@@ -26,6 +26,15 @@ body {
     flex-grow: 1;
 }
 
+#operationForm .operand {
+    background-color: azure;
+}
+
+#operationForm .operand.hidden {
+    display: none;
+}
+
+
 #num1, #num2 {
     height: 30px;  
     margin: 20px;      

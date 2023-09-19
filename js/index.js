@@ -21,9 +21,6 @@ const findOperandById = (id) => {
     return null;
 }
 
-const operand1 = findOperandById('num1');
-const operand2 = findOperandById('num2');
-
 const findResultElementById = (id) => {
     let elem = document.getElementById(id);
     if (elem != null) {
@@ -34,25 +31,53 @@ const findResultElementById = (id) => {
     return null;
 }
 
-const resultElem = findResultElementById('result');
-
-const result = {
-    value: '',
-    error: ''
+const operationPlus = (valueOperands) => {
+    return parseInt(valueOperands[0]) + parseInt(valueOperands[1]);
 }
 
-const operationPlus = (value1, value2) => {
-    return value1 + value2;
+const operationMinus = (valueOperands) => {
+    return parseInt(valueOperands[0]) - parseInt(valueOperands[1]);
+}
+const operationMultiplication = (valueOperands) => {
+    return parseInt(valueOperands[0]) * parseInt(valueOperands[1]);
+}
+const operationDivision = (valueOperands) => {
+    return parseInt(valueOperands[0]) / parseInt(valueOperands[1]);
 }
 
-const operationMinus = (value1, value2) => {
-    return value1 - value2;
+const operationAddArray = (valueOperands) => {
+    let arrOper1 = valueOperands[0].split(",");
+    let arrOper2 = valueOperands[1].split(",");
+    let arrRes = [];
+    
+    if (arrOper1.length > arrOper2.length) {
+        for (let i = 0; arrOper1.length - arrOper2.length; i++) {
+            arrOper2.push('0');
+        }
+    } else {
+        for (let i = 0; arrOper2.length - arrOper1.length; i++) {
+            arrOper1.push('0');
+        }
+    }
+
+    for (let i = 0; i < arrOper1.length; i++) {
+        const t = parseInt(arrOper1[i]) + parseInt(arrOper2[i]);
+        arrRes.push(t);
+    }
+    return arrRes.join(',');
 }
-const operationMultiplication = (value1, value2) => {
-    return value1 * value2;
-}
-const operationDivision = (value1, value2) => {
-    return value1 / value2;
+
+const operationNegative = (valueOperands) => {
+    const value = valueOperands[0];
+    // Todo: need correct operation result
+    if (value == 'false') {
+        return 'true';
+    } else if (value == 'true') {
+        return 'false';
+    }
+    alert('Value must be true or false');
+    console.error('Value must be true or false');
+    return 'false';
 }
 
 const opearationTypes = {
@@ -71,6 +96,14 @@ const opearationTypes = {
     DIVISION: {
         id: '/',
         operation: operationDivision
+    },
+    ADDARRAY: {
+        id: 'addArray',
+        operation: operationAddArray
+    },
+    NEGATIVE: {
+        id: 'negative',
+        operation: operationNegative
     }
 }
 
@@ -94,44 +127,78 @@ const changeOperation = (newOperation) => {
 }
 
 
-const executeOperation = (operand1, operand2, operation) => {
+const executeOperation = (operands, operation) => {
     let result = {
         value: '',
         error: ''
     }
-    if (operand1 == null) {
-        result.error = 'operand 1 empty';
-        return result;
-    }
 
-    if (operand2 == null) {
-        result.error = 'operand 2 empty';
-        return result;
-    }
-    let valueOperand1 = parseInt(operand1.value);
-    let valueOperand2 = parseInt(operand2.value);
     if (operation == null) {
         result.error = 'not selected operations';
         return result;
     }
 
-    result.value = operation(valueOperand1, valueOperand2);
+    for (let i = 0; i < operands.length; i++) {
+        if (operands[i] == null) {
+            result.error = 'operand '+i+' empty';
+            return result;
+        }
+    }
+
+    let valueOperands = [];
+    
+    for (let i = 0; i < operands.length; i++) {
+       valueOperands.push(operands[i].value);
+    }
+   
+    result.value = operation(valueOperands);
     return result;
 }
 
-const handlerExecuteOperations = () => {
-    const res = executeOperation(operand1, operand2, selectedOperation.operation);
-    if (res.error) {
-        resultElem.innerHTML = res.error;
-        return;
+const runApp = () => {
+
+    const operand1 = findOperandById('num1');
+    const operand2 = findOperandById('num2');
+
+    let operationElements = document.querySelectorAll('#appCalculator #operationSelector #allOperations .operation');
+    for (let operElem of operationElements) {
+        operElem.addEventListener("click", (e) => {   
+            const operId = e.target.attributes['idoperation'].value;
+            changeOperation(operId);
+            if (operId ==  opearationTypes.NEGATIVE.id) {
+                if (!operand2.classList.contains('hidden')) {
+                    operand2.classList.add('hidden');
+                }
+            } else {
+                if (operand2.classList.contains('hidden')) {
+                    operand2.classList.remove('hidden');
+                }
+            }
+        })
     }
-    resultElem.innerHTML = res.value;    
+
+    
+
+    const resultElem = findResultElementById('result');
+    
+    const handlerExecuteOperations = () => {
+        let operands = [];
+        if (selectedOperation.id == opearationTypes.NEGATIVE.id) {
+            operands.push(operand1);
+        } else {
+            operands.push(operand1);
+            operands.push(operand2);
+        }
+        const res = executeOperation(operands, selectedOperation.operation);
+        if (res.error) {
+            resultElem.innerHTML = res.error;
+            return;
+        }
+        resultElem.innerHTML = res.value;    
+    }
+    
+    const operButton = document.getElementById('operationButton');
+    operButton.addEventListener("click", handlerExecuteOperations);
 }
 
-const handlerChangeOperations = (idOperation) => {
-
-    changeOperation(idOperation);
-}
-  
-const operButton = document.getElementById('operationButton');
-operButton.addEventListener("click", handlerExecuteOperations);
+runApp();
