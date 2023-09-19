@@ -1,0 +1,17 @@
+#result {
+background-color: beige;
+height: 30px;
+border: thin solid #007e7e;
+  width: 200px;
+margin: auto;
+ }
+#op {
+text-align: center;
+}
+#but {
+margin: 20px;
+height: 30px;
+}
+.inp {
+height: 30px;
+}

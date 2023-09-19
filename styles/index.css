@@ -1,0 +1,46 @@
+body {
+    font-family: Verdana, Geneva, Arial, sans-serif;
+}
+
+#appCalculator {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+#operationSelector {
+    height: 100%;
+    width: 100px;
+}
+#operationSelector #operationHeader {
+    
+}
+#operationSelector #allOperations {
+    display: flex;
+    flex-direction: column;
+}
+
+#operationForm {
+    height: 100%;
+    flex-grow: 1;
+}
+
+#num1, #num2 {
+    height: 30px;  
+    margin: 20px;      
+}
+
+#result {
+    height: 30px;
+    background-color: beige;  
+border: thin solid #007e7e;
+  width: 200px;
+margin: auto;      
+}
+#op1 {
+text-align: center;
+}
+#operationButton {
+margin: 20px;
+}
