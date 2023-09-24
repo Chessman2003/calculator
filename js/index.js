@@ -16,9 +16,11 @@ const findOperandById = (id) => {
     if (elem != null) {
         return elem;
     }
-    alert('Все плохо');
-    console.log('');
-    return null;
+    else {
+        alert('Все плохо');
+        console.log('');
+        return null;
+    }
 }
 
 const findResultElementById = (id) => {
