@@ -204,3 +204,14 @@ const runApp = () => {
 }
 
 runApp();
+
+const selInp = (number) => {
+let inp = document.getElementById("selectInp").value;
+let newInp = document.createElement('input');
+if (inp == 3) {
+    document.body.append(newInp);
+};
+
+};
+const butAd = document.getElementById("butAdd");
+butAd.addEventListener("click", selInp);
