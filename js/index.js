@@ -51,7 +51,7 @@ const operationAddArray = (valueOperands) => {
     let arrOper1 = valueOperands[0].split(",");
     let arrOper2 = valueOperands[1].split(",");
     let arrRes = [];
-    
+
     if (arrOper1.length > arrOper2.length) {
         for (let i = 0; arrOper1.length - arrOper2.length; i++) {
             arrOper2.push('0');
@@ -122,7 +122,7 @@ const changeOperation = (newOperation) => {
     if (newSelected != null) {
         selectedOperation = newSelected;
         const currentOper = document.getElementById('currentOperation');
-        currentOper.innerHTML = ''+selectedOperation.id;
+        currentOper.innerHTML = '' + selectedOperation.id;
         return;
     }
     alert('operation no supported!');
@@ -142,17 +142,17 @@ const executeOperation = (operands, operation) => {
 
     for (let i = 0; i < operands.length; i++) {
         if (operands[i] == null) {
-            result.error = 'operand '+i+' empty';
+            result.error = 'operand ' + i + ' empty';
             return result;
         }
     }
 
     let valueOperands = [];
-    
+
     for (let i = 0; i < operands.length; i++) {
-       valueOperands.push(operands[i].value);
+        valueOperands.push(operands[i].value);
     }
-   
+
     result.value = operation(valueOperands);
     return result;
 }
@@ -164,10 +164,10 @@ const runApp = () => {
 
     let operationElements = document.querySelectorAll('#appCalculator #operationSelector #allOperations .operation');
     for (let operElem of operationElements) {
-        operElem.addEventListener("click", (e) => {   
+        operElem.addEventListener("click", (e) => {
             const operId = e.target.attributes['idoperation'].value;
             changeOperation(operId);
-            if (operId ==  opearationTypes.NEGATIVE.id) {
+            if (operId == opearationTypes.NEGATIVE.id) {
                 if (!operand2.classList.contains('hidden')) {
                     operand2.classList.add('hidden');
                 }
@@ -179,10 +179,10 @@ const runApp = () => {
         })
     }
 
-    
+
 
     const resultElem = findResultElementById('result');
-    
+
     const handlerExecuteOperations = () => {
         let operands = [];
         if (selectedOperation.id == opearationTypes.NEGATIVE.id) {
@@ -196,16 +196,16 @@ const runApp = () => {
             resultElem.innerHTML = res.error;
             return;
         }
-        resultElem.innerHTML = res.value;    
+        resultElem.innerHTML = res.value;
     }
-    
+
     const operButton = document.getElementById('operationButton');
     operButton.addEventListener("click", handlerExecuteOperations);
 }
 
 runApp();
 
-const selInp = (number) => {
+/*const selInp = (number) => {
     let inp = document.getElementById("selectInp").value;
     let newInp = document.createElement('input');
     if (inp == 3) {
@@ -213,5 +213,40 @@ const selInp = (number) => {
     };
 
 };
+
 const butAd = document.getElementById("butAdd");
 butAd.addEventListener("click", selInp);
+*/
+
+const operandFields = document.getElementById("operandFields");
+const setterOperands = document.getElementById("setterOperands");
+const updateOperands = document.getElementById("updateOperands");
+
+updateOperands.addEventListener("click", function (e) {
+    const countOperands = setterOperands.value; // проверять на цифры
+    operandFields.innerHTML = '';
+    for (let i = 0; i < countOperands; i++) {
+        const newOperandField = document.createElement('input');
+        newOperandField.classList.add('operandField');
+        newOperandField.setAttribute('id', 'operandField_' + i);
+        operandFields.append(newOperandField);
+    }
+});
+
+
+const resMiddleValueOperation = document.getElementById("resMiddleValueOperation");
+const runMiddleValueOperation = document.getElementById("runMiddleValueOperation");
+runMiddleValueOperation.addEventListener("click", (e) => {
+    const operandFields = document.querySelectorAll('#testArea #operandFields .operandField');
+    const values = [];
+    for (let operField of operandFields) {
+        values.push(parseInt(operField.value));
+    }
+
+    let tempValue = 0;
+    values.forEach(v => {
+        tempValue+=v;
+    })
+    tempValue/=values.length;
+    resMiddleValueOperation.value = tempValue;
+});
