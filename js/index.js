@@ -164,7 +164,7 @@ const runApp = () => {
 
     let operationElements = document.querySelectorAll('#appCalculator #operationSelector #allOperations .operation');
     for (let operElem of operationElements) {
-        operElem.addEventListener("click", (e) => {
+        $("operElem").bind("click", (e) => {
             const operId = e.target.attributes['idoperation'].value;
             changeOperation(operId);
             if (operId == opearationTypes.NEGATIVE.id) {
@@ -199,8 +199,7 @@ const runApp = () => {
         resultElem.innerHTML = res.value;
     }
 
-    const operButton = document.getElementById('operationButton');
-    operButton.addEventListener("click", handlerExecuteOperations);
+    $("#operationButton").bind("click", handlerExecuteOperations);
 }
 
 runApp();
@@ -221,13 +220,11 @@ butAd.addEventListener("click", selInp);
 const operandFields = document.getElementById("operandFields");
 const setterOperands = document.getElementById("setterOperands");
 const updateOperands = document.getElementById("updateOperands");
-
-updateOperands.addEventListener("click", function (e) {
+$("updateOperands").bind("click", function (e) {
     const countOperands = setterOperands.value; // проверять на цифры
-    operandFields.innerHTML = '';
+    $("operandFields").append(" ")
     for (let i = 0; i < countOperands; i++) {
-        const newOperandField = document.createElement('input');
-        newOperandField.classList.add('operandField');
+        const newOperandField =$("input").addClass('operandField')
         newOperandField.setAttribute('id', 'operandField_' + i);
         operandFields.append(newOperandField);
     }
@@ -236,7 +233,7 @@ updateOperands.addEventListener("click", function (e) {
 
 const resMiddleValueOperation = document.getElementById("resMiddleValueOperation");
 const runMiddleValueOperation = document.getElementById("runMiddleValueOperation");
-runMiddleValueOperation.addEventListener("click", (e) => {
+$("resMiddleValueOperation").bind("click",, (e) => {
     const operandFields = document.querySelectorAll('#testArea #operandFields .operandField');
     const values = [];
     for (let operField of operandFields) {
