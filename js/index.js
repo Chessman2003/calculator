@@ -10,29 +10,6 @@ let count;
 let selectedOperation = opearationTypes[0];
 */
 
-
-const findOperandById = (id) => {
-    let elem = document.getElementById(id);
-    if (elem != null) {
-        return elem;
-    }
-    else {
-        alert('Все плохо');
-        console.log('');
-        return null;
-    }
-}
-
-const findResultElementById = (id) => {
-    let elem = document.getElementById(id);
-    if (elem != null) {
-        return elem;
-    }
-    alert('Все плохо');
-    console.log('');
-    return null;
-}
-
 const operationPlus = (valueOperands) => {
     return parseInt(valueOperands[0]) + parseInt(valueOperands[1]);
 }
@@ -81,7 +58,6 @@ const operationNegative = (valueOperands) => {
     console.error('Value must be true or false');
     return 'false';
 }
-// jdfjshf
 const opearationTypes = {
     MINUS: {
         id: '-',
@@ -113,16 +89,15 @@ let selectedOperation = opearationTypes.MINUS;
 
 const changeOperation = (newOperation) => {
     let newSelected = null;
-    Object.entries(opearationTypes).forEach(([key, value]) => {
+    $(opearationTypes).each(function (key, value) {
         if (value.id == newOperation) {
             newSelected = value;
         }
-    })
+    });
 
     if (newSelected != null) {
         selectedOperation = newSelected;
-        const currentOper = document.getElementById('currentOperation');
-        currentOper.innerHTML = '' + selectedOperation.id;
+        $('#currentOperation').html('' + selectedOperation.id);
         return;
     }
     alert('operation no supported!');
@@ -159,17 +134,17 @@ const executeOperation = (operands, operation) => {
 
 const runApp = () => {
 
-    const operand1 = findOperandById('num1');
-    const operand2 = findOperandById('num2');
+    const operand1 = $('#num1');
+    const operand2 = $('#num2');
 
-    let operationElements = document.querySelectorAll('#appCalculator #operationSelector #allOperations .operation');
+    let operationElements = $('#appCalculator, #operationSelector, #allOperations, .operation');
     for (let operElem of operationElements) {
-        $("operElem").bind("click", (e) => {
-            const operId = e.target.attributes['idoperation'].value;
+        $(operElem).on("click", (e) => {
+            const operId = $('e.target').attr('idoperation').value;
             changeOperation(operId);
             if (operId == opearationTypes.NEGATIVE.id) {
-                if (!operand2.classList.contains('hidden')) {
-                    operand2.classList.add('hidden');
+                if (!operand2.hasClass('hidden')) {
+                    operand2.addClass('hidden');
                 }
             } else {
                 if (operand2.classList.contains('hidden')) {
@@ -181,7 +156,7 @@ const runApp = () => {
 
 
 
-    const resultElem = findResultElementById('result');
+    const resultElem = $('#result');
 
     const handlerExecuteOperations = () => {
         let operands = [];
@@ -199,7 +174,7 @@ const runApp = () => {
         resultElem.innerHTML = res.value;
     }
 
-    $("#operationButton").bind("click", handlerExecuteOperations);
+    $("#operationButton").on("click", handlerExecuteOperations);
 }
 
 runApp();
@@ -217,24 +192,19 @@ const butAd = document.getElementById("butAdd");
 butAd.addEventListener("click", selInp);
 */
 
-const operandFields = document.getElementById("operandFields");
-const setterOperands = document.getElementById("setterOperands");
-const updateOperands = document.getElementById("updateOperands");
-$("updateOperands").bind("click", function (e) {
+const operandFields = $("#operandFields");
+const setterOperands = $("#setterOperands");
+$("updateOperands").on("click", function (e) {
     const countOperands = setterOperands.value; // проверять на цифры
-    $("operandFields").append(" ")
+    $("operandFields").append('');
     for (let i = 0; i < countOperands; i++) {
-        const newOperandField =$("input").addClass('operandField')
-        newOperandField.setAttribute('id', 'operandField_' + i);
+        const newOperandField = $("input").addClass('operandField').attr('id', 'operandField_' + i);
         operandFields.append(newOperandField);
     }
 });
-
-
-const resMiddleValueOperation = document.getElementById("resMiddleValueOperation");
-const runMiddleValueOperation = document.getElementById("runMiddleValueOperation");
-$("resMiddleValueOperation").bind("click",, (e) => {
-    const operandFields = document.querySelectorAll('#testArea #operandFields .operandField');
+const runMiddleValueOperation = $("#runMiddleValueOperation");
+$("#resMiddleValueOperation").on("click", (e) => {
+    const operandFields = $('#testArea, #operandFields, .operandField,');
     const values = [];
     for (let operField of operandFields) {
         values.push(parseInt(operField.value));
@@ -242,8 +212,8 @@ $("resMiddleValueOperation").bind("click",, (e) => {
 
     let tempValue = 0;
     values.forEach(v => {
-        tempValue+=v;
+        tempValue += v;
     })
-    tempValue/=values.length;
+    tempValue /= values.length;
     resMiddleValueOperation.value = tempValue;
 });
